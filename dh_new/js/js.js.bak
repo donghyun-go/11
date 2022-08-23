@@ -1,0 +1,330 @@
+
+$().ready(function(){
+		var map_index;
+		$(".navi_m > li").bind('mouseover focusin',function(){
+				$(".navi_sb",this).css("display","block");
+				//	map_index = $(this).index()+1; 
+				//		$(".map_img img").attr("src","img/center_map"+map_index+".png");
+			}
+		);
+		$(".navi_m > li").bind('mouseout',function(){
+			$(".navi_sb",this).css("display","none");
+			}
+		);
+		$(".contents_r1 h3").bind('click focusin',function(){
+				$(".contents_r1 h3 a").css({"background-color":"#f1f3f4","border-bottom":"1px solid #d0d0d0"});
+				$("a",this).css({"background-color":"#fff","border-bottom":"none"});
+				$(".r1_ul").css("display","none");
+				$("+ .r1_ul",this).css("display","block");
+			}
+		);
+		$(".mo_menu a").click(function(){
+				$(".navi_mo_bg").css("display","block");	
+			}
+		);
+		$(".navi_close a").click(function(){
+				$(".navi_mo_bg").css("display","none");	
+			}
+		);
+		/*
+		$(".navi_mo > li > a").toggle(function() {
+			$("+ .navi_mo_st li",this).css("display",'block');
+		},function() {
+			$("+ .navi_mo_st li",this).css("display","none");
+		});
+		*/
+		$(".navi_mo > li > a").click(function(){
+				$("+ .navi_mo_st > li",this).toggle();	
+			}
+		);
+		
+		var text_up = setTimeout(function(){text_move_up()},3000);	
+		var text_down;
+		function text_move_up(){
+			$(".news_list").animate({marginTop:"-32px"},500,"linear",function(){
+				$(".news_list").css("marginTop","0px");
+				$(".news_list li:first").appendTo(".news_list");
+				text_up = setTimeout(function(){text_move_up()},3000);
+			});
+		}
+		function text_move_down(){
+			$(".news_list").animate({marginTop:"32px"},500,"linear",function(){
+				$(".news_list li:last").prependTo(".news_list");
+				$(".news_list").css("marginTop","0px");
+				text_down = setTimeout(function(){text_move_down()},3000);
+			});
+		}
+		$(".newslist_up").click(function(){
+			if(!($(".news_list").is(":animated"))){
+				clearTimeout(text_up);
+				clearTimeout(text_down);
+				$(".news_list").stop();
+				text_up = setTimeout(function(){text_move_up()},3000);
+			}	
+		});
+		$(".newslist_down").click(function(){
+			if(!($(".news_list").is(":animated"))){
+				clearTimeout(text_up);
+				clearTimeout(text_down);
+				$(".news_list").stop();
+				text_down = setTimeout(function(){text_move_down()},3000);
+			}
+		});
+		$(".newslist_stop").click(function(){
+			if(!($(".news_list").is(":animated"))){
+				clearTimeout(text_up);
+				clearTimeout(text_down);
+				$(".news_list").stop();
+			}
+		});
+
+//롤링배너			
+	var banner_hap = $(".mb_list li").size(); //배너전체 숫자
+	var max_banner = banner_hap-1 ; //배너 인덱스 번호는 0 부터 시작 하므로 -1 해줌...
+	var dot_num=0; //현재 선택된 배너 넘버
+	var dot_click_num; //클릭한 도트 넘버
+	var banner_num =1; //배너 버튼 대체텍스트
+	var banner_click = "off";
+	var banner_move = "move"; //배너상태	
+
+
+	
+	//배너 버튼 자동으로 생성하기
+	for(i=0; i < banner_hap; i++){	 	
+		$(".visaulBtn_dot").append("<a class='dot_a' href='#NA'><img src='images/main/slider_btn_off.png' alt='"+banner_num+"번째 배너' /></a> \n"); 
+		banner_num++;
+	}
+		
+	$(".mb_list li").css("display","none");
+	$(".mb_list li:first").css("display","block");
+	$(".mb_dot .dot_a:first img").attr("src","images/main/slider_btn_on.png");
+	
+	var rolling_set =setInterval(function(){ rolling();}, 3000);
+	function rolling(){
+		//console.log("banner_click: "+banner_click+ " / banner_move : "+banner_move);
+		banner_fadeOut();
+			
+		if(dot_num == max_banner ){
+			dot_num=0;
+		}else{
+			dot_num+=1;
+		}
+	
+		banner_fadeIn();
+			
+	}		
+	function banner_fadeOut(){
+		$(".mb_list li").fadeOut(500);
+		$(".mb_dot .dot_a img").attr("src","images/main/slider_btn_off.png");
+	}
+	function banner_fadeIn(){
+		$(".mb_list li:nth("+dot_num+")").fadeIn(500);
+		$(".mb_dot .dot_a:nth("+dot_num+") img").attr("src","images/main/slider_btn_on.png");
+	}
+
+	$(".dot_a").bind('click focusin',function(){
+			
+			dot_click_num = $(this).index();
+	
+			if(dot_num != dot_click_num){
+				dot_num = dot_click_num;			
+				clearInterval(rolling_set);	
+				banner_fadeOut();	
+				banner_fadeIn();
+				banner_click = "on";
+			//	banner_move = "stop";
+			    if(banner_move=="move"){
+					rolling_set =setInterval(function(){ rolling();}, 3000);
+				}
+				
+			}	
+		
+	});
+
+	$(".mb_list li").bind('mouseout focusout',function(){
+		if(banner_move == "move"){
+			rolling_set =setInterval(function(){ rolling();}, 3000);
+		}
+		
+		/*
+		if(banner_move != "stop" && banner_click != "on"){
+				banner_move = "move";
+				banner_click ="off";
+				rolling_set =setInterval(function(){ rolling();}, 5000);
+		}	
+		*/
+		
+	});
+
+
+	$(".mb_list li,.mb_dot span").bind('focusin mouseover',function(){
+		clearInterval(rolling_set); 
+	});
+
+	$(".banner_c_stop").click(function(){	
+			if(banner_move == "move"){
+				clearInterval(rolling_set); 
+				banner_move = "stop";
+				$(".banner_c_stop img").attr({"src":"images/main/play.png","alt":"배너정지"})
+			}else if(banner_move == "stop"){
+				rolling_set	= setInterval(function(){rolling();}, 3000);	
+				banner_move = "move"
+				$(".banner_c_stop img").attr({"src":"images/main/stop.png","alt":"배너재생"})
+			}
+		}
+	);
+
+//롤링배너2
+	var banner_size_2 = $(".s_banner_bg li").size();
+	var next_banner = 1;
+	var now_banner = 0;
+	var banner_num_2
+    var banner_2
+    var slide_step1
+	var slide_step2
+    var banner_move2 ="move";
+
+//	setInterval(function(){left_lol();},4000);
+	banner_2 = setInterval(function(){left_lol(); console.log(now_banner);},5000);
+//	$(".s_banner_bg li").css("display","none");
+//	$(".s_banner_bg li:first").css("display","block");
+	
+	
+	for(i=0; i < banner_size_2; i++){
+		j=i+1;
+		$(".s_banner_dot").append("<a class='s_dot_a' href='#NA'><img src='images/main/slider_btn_off.png' alt='"+j+"번째 배너' /></a> \n"); 
+		banner_num_2++;
+	}
+
+	$(".s_banner_c a:first img").attr("src","images/main/slider_btn_on.png");
+	$(".now_b").text("현재배너 : " + now_banner);
+	$(".next_b").text("다음배너 : " + next_banner);
+	
+	function left_lol(){
+	$(".now_b").text("현재배너 : " + now_banner);
+	$(".next_b").text("다음배너 : " + next_banner);
+		
+	
+			
+			
+			//$(".s_banner_bg li:first").animate({left: "-33.4%"},3000,function(){
+			//$(".s_banner_bg li:first").appendTo(".s_banner_bg");
+	//		$(".s_banner_bg li:nth(1)").css({"width":"100%","left":"100%","display":"block","position":"absolute","top":"0px"});
+	//		$(".s_banner_bg li:first").css("left","-100%");
+	//		$(".s_banner_bg li:first").css("visibility","hidden");
+			$(".s_banner_bg li:nth("+next_banner+")").addClass("next");
+			
+			slide_step1=setTimeout(function(){
+				$(".s_banner_bg li:nth("+now_banner+")").addClass("left");
+				$(".s_banner_dot a:nth("+now_banner+") img").attr("src","images/main/slider_btn_off.png");
+				$(".s_banner_bg li:nth("+next_banner+")").addClass("left");
+				$(".s_banner_dot a:nth("+next_banner+") img").attr("src","images/main/slider_btn_on.png");
+			},50);
+			
+			slide_step2=setTimeout(function(){
+				$(".s_banner_bg li:nth("+now_banner+")").removeClass("active");
+				$(".s_banner_bg li:nth("+now_banner+")").removeClass("left");
+				$(".s_banner_bg li:nth("+next_banner+")").removeClass("next");
+				$(".s_banner_bg li:nth("+next_banner+")").removeClass("left");
+				$(".s_banner_bg li:nth("+next_banner+")").addClass("active");
+				if(next_banner==banner_size_2-1){
+					next_banner=0;
+				}else{
+					next_banner++;
+				}
+
+				if(next_banner==0){
+					now_banner = banner_size_2-1;
+				}else{
+					now_banner = next_banner-1;
+				}
+			//	banner_2 = setInterval(function(){left_lol(); },3000);
+			},500);
+			
+			
+	}
+	var interval_on ="on";
+	$(".s_banner_c,.s_banner_bg").bind('focus mouseover',function(){
+//		clearInterval(banner_2);
+	//	clearTimeout(slide_step1);
+	//	clearTimeout(slide_step2);
+		interval_on ="on"
+	});
+	$(".s_banner_c,.s_banner_bg").bind('mouseout focusout',function(){
+		if(interval_on=="on"){
+			//banner_2 = setInterval(function(){left_lol();},3000);
+		}
+		interval_on="off";
+	});
+
+	$(".s_banner_dot a").bind('click',function(){
+		
+		
+	});
+
+	$(".s_banner_bg").on({
+           mouseover: function(){
+				clearInterval(banner_2);
+		   },
+           mouseleave: function(){
+				banner_2 = setInterval(function(){left_lol(); },5000);
+		   }
+        });
+
+	$(".s_banner_stop").click(function(){
+		if(banner_move2=="move"){
+			banner_move2="stop";
+			clearInterval(banner_2);
+			$(".s_banner_stop img").attr("src","images/main/play.png");
+		}else{
+			banner_move2="move";
+			banner_2 = setInterval(function(){left_lol(); },5000);
+			$(".s_banner_stop img").attr("src","images/main/stop.png");
+		}
+		
+	});
+
+	$(".s_banner_dot a").click(function(){
+		if($(this).index()!=now_banner){ //현재 위치 도트 클릭시 아무런 반응이 없음
+			clearInterval(banner_2);
+	//		now_banner += 1;
+			next_banner=$(this).index();
+			console.log("클릭한번호:"+next_banner+" /");
+			console.log(" 현재위치:"+now_banner);
+	//		clearInterval(banner_2);
+	//		next_banner=$(this).index();
+			if(banner_move2=="move"){
+				banner_2 = setInterval(function(){left_lol(); },5000);	
+			}
+		left_lol();
+		}
+		
+	});
+
+	function aaa(){
+		$(".s_banner_bg li:nth("+next_banner+")").addClass("next");
+			
+			slide_step1=setTimeout(function(){
+				$(".s_banner_bg li:nth("+now_banner+")").addClass("left");
+				$(".s_banner_c a:nth("+now_banner+") img").attr("src","images/main/slider_btn_off.png");
+				$(".s_banner_bg li:nth("+next_banner+")").addClass("left");
+				$(".s_banner_c a:nth("+next_banner+") img").attr("src","images/main/slider_btn_on.png");
+			},50);
+			
+			slide_step2=setTimeout(function(){
+				$(".s_banner_bg li:nth("+now_banner+")").removeClass("active");
+				$(".s_banner_bg li:nth("+now_banner+")").removeClass("left");
+				$(".s_banner_bg li:nth("+next_banner+")").removeClass("next");
+				$(".s_banner_bg li:nth("+next_banner+")").removeClass("left");
+				$(".s_banner_bg li:nth("+next_banner+")").addClass("active");
+				now_banner=next_banner;
+				if(next_banner==banner_size_2-1){
+					next_banner=0;
+				}else{
+					next_banner++;
+				}
+				banner_2 = setInterval(function(){left_lol(); },3000);
+			},400);
+	}
+
+});

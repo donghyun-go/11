@@ -1,0 +1,38 @@
+
+/*body{-webkit-tap-highlight-color:rgba(0,0,0 0);}*/
+
+/* 아이폰 에서는 */
+body{-webkit-tap-highlight-color:transparent;}
+
+
+
+
+*{margin:0;padding:0;vertical-align:middle;}
+ul,ol,li{list-style:none;}
+button{border:none;}
+.member h1{font-size:20px; line-height:45px;}
+.member h2,.member h3{font-size:18px;}
+.member{padding-top:45px;}
+.member .top{position:fixed;left:0;top:0;text-align:center;width:100%; height:50px;background-color:#fff;}
+.member .top button{width:40px;height:50px;position:absolute;top:0;left:0;text-indent:-9999px;background:url(../images/arrowBack.png) center center no-repeat;background-size:8px auto;/*transform: translatey(-50%);*/}
+.tel{display:flex;flex-wrap: wrap;}
+.tel input,.tel span{}
+.tel input{width:100%;flex:1;}
+.tel span{width:15px; text-align:center;}
+.sex label{display:block;width:50%;height:30px;line-height:30px;border:1px solid black;float:left;box-sizing:border-box; text-align:center;}
+.sex label.on{border-color:red;}
+.sex label~label{margin-left:-1px; border-left-color:red;}
+.sex input{position:absolute;left:-999999px;top:-999999px;}
+.sex strong{display:inline-block;width:100%;}
+.day{display:flex;}
+.day .day_c{width:15px; line-height:35px; text-align:center;}
+.day .day{width:100%;flex:1; position:relative;}
+.day .day input{width:100%; height:29px;}
+.ui-datepicker-trigger{position:absolute; top:50%;right:4px;margin-top:-10px;}
+.check_50 li{width:50%;float:left;}
+.check{padding-left:15px;}
+.check_50 li .check label{width:100%;display:inline-block;}
+.check_50 li .check label::before{display:inline-block;content:'';vertical-align:middle;width:16px;height:16px;margin-right:5px;background:url(../images/check.png) -5px  -5px no-repeat;background-size:52px auto;}
+.check_50 li input{position:absolute;top:-9999px;left:-9999px;}
+.check input[type='checkbox']:checked+label::before{background-position:-31px  -5px;}
+.check input[type='checkbox']:focus+label::before{outline: 1px dashed;outline: 1px auto -webkit-focus-ring-color;}

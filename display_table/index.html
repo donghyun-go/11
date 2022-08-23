@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>디스플레이 테이블</title>
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        ul{display:table;width:1000px;margin:0 auto;vertical-align:middle;margin-top:30px;}
+        li{height:50px;display:table-row;}
+        ul li+li{border-top:1px solid gray;}
+        li input[type='text'],li select{border:1px solid #A6A6A6;}
+        .left{width:25%;display:table-cell;border:1px solid gray;text-align:center;}
+        ul li+li .left{border-top-width:0px;}
+        .right{width:auto;display:table-cell;border:1px solid gray;border-left-width:0px;padding:10px 5px 10px 10px;vertical-align:middle;}
+        ul li+li .right{border-top-width:0px;}
+        .right input{height:30px; vertical-align:middle; font-size:16px; } 
+        .right.tel input{width:150px;}
+        .right select{height:34px; vertical-align:middle; font-size:16px;}
+        .right .file_box+.file_box{margin-top:10px;}
+        .right .file_box input[type='text']{width:350px;}
+        .right .file_box input[type='file']{position:absolute;top:-99999px;left:-9999px;} 
+        .right .file_box input[type='file']:focus+label{outline: 1px dashed;outline: 1px auto -webkit-focus-ring-color;}
+        .right .file_box label{display:inline-block;width:88px;height:32px;font-size:16px;line-height:32px;text-align:center;background-color:#A6A6A6;}
+
+    </style>
+    <script>
+        function chgdomain() {
+            $("input[id=mail_last]").val($("select[id=mail_select]").val()); 
+            $("#mail_last").attr("readonly",true);
+            if($("#mail_select").val() == ""){
+                $("#mail_last").attr("readonly",false);
+            }
+           
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <form action="">
+            <ul>
+                <li>
+                    <span class="left">제목</span>
+                    <span class="right"><input type="text" class="title_a" /></span>
+                </li>
+                <li>
+                    <div class="left">이메일</div>
+                    <div class="right">
+                        <input type="text" class="e_mail_id" /> @ 
+                        <select name="mail_select" id="mail_select" onchange="chgdomain();"> 
+                            <option value="">직접입력</option>
+                            <option value="naver.com">naver.com</option>
+                            <option value="daum.net">daum.net</option>
+                            <option value="gmail.com">gmail.com</option>
+                        </select>
+                        <input type="text" id="mail_last"  />
+                    </div>
+                </li>
+                <li>
+                    <div class="left">전화번호</div>
+                    <div class="right tel"><input type="text" class="tel_first" /> - <input type="text" class="tel_middle" /> - <input type="text" class="tel_last" /></div>
+                </li>
+                <li>
+                    <div class="left">첨부파일</div>
+                    <div class="right">
+                        <div class="file_box">
+                            <input type="text" id="file_route0" />
+                            <input type="file" id="file_1" onchange="javascript:document.getElementById('file_route0').value=this.value;" /><label for="file_1">찾아보기</label>
+                        </div>
+                        <div class="file_box">
+                            <input type="text" id="file_route1" />
+                            <input type="file" id="file_2" onchange="javascript:document.getElementById('file_route1').value=this.value;" /><label for="file_2">찾아보기</label>
+                        </div>
+                    </div>
+                </li>
+            </ul>       
+        </form>    
+    </div>
+</body>
+</html>
