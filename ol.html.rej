@@ -1,0 +1,13 @@
+diff a/ol.html b/ol.html	(rejected hunks)
+@@ -20,6 +20,10 @@
+         <li>내용</li>
+         <li>내용</li>
+     </ol>
++<<<<<<< HEAD
+ 	<!--1-->
++	<!--2-->
++=======
++>>>>>>> parent of 552b59f (1)
+ </body>
+ </html>
+\ No newline at end of file
