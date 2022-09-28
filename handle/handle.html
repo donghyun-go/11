@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">   
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.runtime.js" ></script>   
+</head>
+<body>
+    
+    <script id="entry-template" type="text/x-handlebars-template">
+        <div class="entry">
+          <h1>{{title}}</h1>
+          <div class="body">
+            {{body}}
+          </div>
+        </div>
+    </script>
+    
+     <div id="result"></div>
+     
+
+    <script>
+        var context = { 
+            title: 'Title',
+            body: 'body!!'
+        };
+       
+        var source = document.getElementById('entry-template').innerHTML;
+        var template = handlebars.compile(source); 
+        //var html = template(context);
+       // document.getElementById('result').innerHTML = html;
+
+     
+    </script>
+</body>
+</html>
