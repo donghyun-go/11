@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">   
     <title>Document</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.runtime.js" ></script>   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script> 
 </head>
 <body>
     
@@ -27,9 +27,9 @@
         };
        
         var source = document.getElementById('entry-template').innerHTML;
-        var template = handlebars.compile(source); 
-        //var html = template(context);
-       // document.getElementById('result').innerHTML = html;
+        var template = Handlebars.compile(source); 
+        var html = template(context);
+        document.getElementById('result').innerHTML = html;
 
      
     </script>
